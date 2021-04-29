@@ -1,10 +1,10 @@
 ---
 title: "Corona Virus Report"
 author:
-- familyname: XXXX
-  othernames: XXX
+- familyname: Tsakis
+  othernames: Alexi
   address: Monash Universtidy
-  email: XXX
+  email: atsa0003@student.monash.edu
   correspondingauthor: true
   qualifications:  XXX
 - familyname: XXXX
@@ -38,12 +38,24 @@ output:
 
 ```{r , echo = FALSE, message = FALSE, warning = FALSE}
 # Libraries
-
+set.seed(96024)
 library(tidyverse)
 library(readr)
 library(kableExtra)
 library(bookdown)
+data = read.csv("data/worldwidecases.csv")
+sample(unique(data$countriesAndTerritories),2)
 
+data = data %>%
+  filter(countriesAndTerritories %in% c("Myanmar","Guernsey"))
+
+data %>%
+  ggplot(aes(x=dateRep,y=cases))+geom_line()+facet_wrap(~countriesAndTerritories)
+
+data %>%
+  group_by(countriesAndTerritories,month) %>%
+  summarise(n=sum(cases)) %>%
+  ggplot(aes(x=month,y=n,col=countriesAndTerritories))+geom_line()
 ```
 
 
