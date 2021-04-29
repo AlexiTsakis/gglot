@@ -52,16 +52,21 @@ library(bookdown)
 
 ```{r}
 library(lubridate)
+options(scipen=10)
 set.seed(96024)
 data = read.csv("data/worldwidecases.csv")
 sample(unique(data$countriesAndTerritories),2)
 
 data = data %>%
   filter(countriesAndTerritories %in% c("Myanmar","Guernsey")) %>%
-  mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y')))
+  mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y'))) %>%
+  mutate(pct_pop = (cases/popData2018)*100)
 
 data %>%
   ggplot(aes(x=day_of_year,y=cases,col=countriesAndTerritories))+geom_line()
+
+data %>%
+  ggplot(aes(x=day_of_year,y=pct_pop,col=countriesAndTerritories))+geom_line()
 ```
 
 
