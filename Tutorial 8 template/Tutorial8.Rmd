@@ -57,17 +57,23 @@ set.seed(96024)
 data = read.csv("data/worldwidecases.csv")
 sample(unique(data$countriesAndTerritories),2)
 
-data = data %>%
+data_mg = data %>%
   filter(countriesAndTerritories %in% c("Myanmar","Guernsey")) %>%
   mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y'))) %>%
   mutate(pct_pop = (cases/popData2018)*100)
 
-data %>%
+data_mg %>%
   ggplot(aes(x=day_of_year,y=cases,col=countriesAndTerritories))+geom_line()
 
-data %>%
+data_mg %>%
   ggplot(aes(x=day_of_year,y=pct_pop,col=countriesAndTerritories))+geom_line()
+
+data %>%
+  filter(continentExp %in% c("Europe","Asia")) %>%
+  mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y'))) %>%
+  group_by(continentExp,month) %>%
+  summarise(mean=mean(cases))
 ```
 
-
+Measuring the
 
