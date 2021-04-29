@@ -70,10 +70,21 @@ data_mg %>%
 
 data %>%
   filter(continentExp %in% c("Europe","Asia")) %>%
+  mutate(pct_pop = (cases/popData2018)*100) %>%
   mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y'))) %>%
   group_by(continentExp,month) %>%
-  summarise(mean=mean(cases))
+  summarise(mean=mean(pct_pop))
+
+data_mg %>%
+  group_by(countriesAndTerritories,month) %>%
+  summarise(mean=mean(pct_pop))
 ```
+For this section we will discuss the impact of coronavirus in Guernsey and Myanmar.
 
-Measuring the
+- Guernsey is one of the channel islands in the English Channel near the French coast. It has a total area of 65 square kilometres, is accessible only by sea, and has a population of approximately 60,000.
+- Myanmar is a country in Southeast Asia, bordered by Bangladesh, India, China, Laos and Thailand land-wise, as well as the Andaman Sea and the Bay of Bengal. It has a population of approximately 54 million.
 
+Using the data we have, we have compared the impact of coronavirus on the two relative to their respective continents, their population size and raw numbers based on the cases they have.
+
+- Guernsey was not hit hard by coronavirus in terms of absolute number of cases (see graph 1 and 2), however in terms of percentage of population relative to the average for the rest of Europe, coronavirus had a large impact - approximately double the percentage of population affected in month 3 and 4 (See table 1 and 2).
+- Myanmar was not affected by coronavirus, having only approximately the same number of total cases as Guernsey for its much larger population (see graph 1 and 2), and compared to the rest of Asia's average percentage of population affected, it is much lower (See table 1 and 2).
