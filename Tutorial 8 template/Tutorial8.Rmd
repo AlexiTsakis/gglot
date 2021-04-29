@@ -38,33 +38,31 @@ output:
 
 ```{r , echo = FALSE, message = FALSE, warning = FALSE}
 # Libraries
-set.seed(96024)
 library(tidyverse)
 library(readr)
 library(kableExtra)
 library(bookdown)
-data = read.csv("data/worldwidecases.csv")
-sample(unique(data$countriesAndTerritories),2)
-
-data = data %>%
-  filter(countriesAndTerritories %in% c("Myanmar","Guernsey"))
-
-data %>%
-  ggplot(aes(x=dateRep,y=cases))+geom_line()+facet_wrap(~countriesAndTerritories)
-
-data %>%
-  group_by(countriesAndTerritories,month) %>%
-  summarise(n=sum(cases)) %>%
-  ggplot(aes(x=month,y=n,col=countriesAndTerritories))+geom_line()
 ```
-
-
 
 \section*{Country XX1 and YY1"}
 
 \section*{Country XX2 and YY2}
 
-\section*{Country XX3 and YY3}
+\section*{Country Myanmar and Guernsey}
+
+```{r}
+library(lubridate)
+set.seed(96024)
+data = read.csv("data/worldwidecases.csv")
+sample(unique(data$countriesAndTerritories),2)
+
+data = data %>%
+  filter(countriesAndTerritories %in% c("Myanmar","Guernsey")) %>%
+  mutate(day_of_year = yday(as.Date(dateRep,format='%d/%m/%Y')))
+
+data %>%
+  ggplot(aes(x=day_of_year,y=cases,col=countriesAndTerritories))+geom_line()
+```
 
 
 
